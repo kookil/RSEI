@@ -1,0 +1,19 @@
+var p = ee.FeatureCollection([
+  ee.Feature(ee.Geometry.Point(20, 60)),
+  ee.Feature(ee.Geometry.Point(10, 30))
+]);
+var dataset = ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017').filter(ee.Filter.bounds(p));
+var styleParams = {
+  fillColor: 'b5ffb4',
+  color: '00909F',
+  width: 1.0,
+};
+var countries = dataset.style(styleParams);
+Map.setCenter(20, 50, 3);
+Map.addLayer(countries, {}, 'USDOS/LSIB_SIMPLE/2017');
+Export.table.toDrive({
+  collection: dataset,
+  description: "boundry",
+  folder:"RSEI",
+  fileFormat: "SHP"
+});
